@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutionException;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("/books")
 public class BookController {
 
     public final BookService bookService;
