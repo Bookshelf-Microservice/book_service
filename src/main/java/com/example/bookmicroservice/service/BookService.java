@@ -1,10 +1,12 @@
 package com.example.bookmicroservice.service;
 
 import com.example.bookmicroservice.entity.Book;
+import com.google.api.client.json.Json;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +44,22 @@ public class BookService {
             }
         }
         return null;
+    }
+
+    public String addBook(Book book) {
+        CollectionReference cr = firebaseInitializer.getFirebase().collection("books");
+        cr.add(book);
+        return book.getBookName()+" is added";
+    }
+
+    public String deleteBook(Book book) throws ExecutionException, InterruptedException{
+        CollectionReference cr = firebaseInitializer.getFirebase().collection("books");
+        ApiFuture<QuerySnapshot> querySnapshot =  cr.get();
+        for(DocumentSnapshot doc : querySnapshot.get().getDocuments()){
+            if(Objects.equals(doc.get("bookName"), book.getBookName())) {
+                cr.document(doc.getId()).delete();
+            }
+        }
+        return "The Book is deleted";
     }
 }

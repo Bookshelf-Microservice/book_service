@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 @Setter
 public class Book {
     private String bookName;
+    private String bookAuthor;
+    private String bookPublishingHouse;
     private String bookUrl;
 
 }
