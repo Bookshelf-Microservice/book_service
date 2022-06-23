@@ -22,6 +22,11 @@ public class BookController {
 
         return bookService.getAllBooks();
     }
+    @GetMapping("/getBook/{bookName}")
+    public Book getBook(@PathVariable("bookName") String bookName) throws ExecutionException, InterruptedException {
+
+        return bookService.getBook(bookName);
+    }
 
 
 

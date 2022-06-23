@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 @AllArgsConstructor
@@ -29,5 +30,17 @@ public class BookService {
             System.out.println(book.getBookName());
         }
         return bookList;
+    }
+
+    public Book getBook(String bookName)  throws ExecutionException, InterruptedException{
+        CollectionReference cr = firebaseInitializer.getFirebase().collection("books");
+        ApiFuture<QuerySnapshot> querySnapshot =  cr.get();
+
+        for(DocumentSnapshot doc : querySnapshot.get().getDocuments()){
+            if(Objects.equals(doc.get("bookName"), bookName)) {
+                return  doc.toObject(Book.class);
+            }
+        }
+        return null;
     }
 }
